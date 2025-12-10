@@ -81,6 +81,11 @@ h1 {
 
 .section {
     margin-bottom: 30px;
+    margin-top: 0;
+}
+
+.section:nth-of-type(3) {
+    margin-top: 40px;
 }
 
 .section-title {
