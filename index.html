@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNM GPA Calculator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/logo.jpg" alt="UNM Logo">
+            </div>
+            <h1>UNM GPA Calculator</h1>
+            <p class="subtitle">Calculate your semester GPA</p>
+        </div>
+
+        <div class="content">
+            <!-- Grade Scale Section -->
+            <div class="section">
+                <div class="section-title">Grade Scale</div>
+                <div class="grades-grid">
+                    <div class="grade-badge"><span class="letter">A+</span><span class="points">4.33</span></div>
+                    <div class="grade-badge"><span class="letter">A</span><span class="points">4.00</span></div>
+                    <div class="grade-badge"><span class="letter">A-</span><span class="points">3.67</span></div>
+                    <div class="grade-badge"><span class="letter">B+</span><span class="points">3.33</span></div>
+                    <div class="grade-badge"><span class="letter">B</span><span class="points">3.00</span></div>
+                    <div class="grade-badge"><span class="letter">B-</span><span class="points">2.67</span></div>
+                    <div class="grade-badge"><span class="letter">C+</span><span class="points">2.33</span></div>
+                    <div class="grade-badge"><span class="letter">C</span><span class="points">2.00</span></div>
+                    <div class="grade-badge"><span class="letter">C-</span><span class="points">1.67</span></div>
+                    <div class="grade-badge"><span class="letter">D+</span><span class="points">1.33</span></div>
+                    <div class="grade-badge"><span class="letter">D</span><span class="points">1.00</span></div>
+                    <div class="grade-badge"><span class="letter">D-</span><span class="points">0.67</span></div>
+                    <div class="grade-badge"><span class="letter">F</span><span class="points">0.00</span></div>
+                </div>
+            </div>
+
+            <!-- Course Input Section -->
+            <div class="section">
+                <div class="section-title">Your Courses</div>
+                <div id="coursesContainer"></div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="addCourse()">+ Add Course</button>
+                    <button class="btn btn-primary" onclick="calculateGPA()">Calculate</button>
+                    <button class="btn btn-secondary" onclick="resetCalculator()">Reset</button>
+                </div>
+                <div id="error" class="error"></div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="result">
+                <div class="result-row">
+                    <div class="result-item">
+                        <div class="result-label">Total Hours</div>
+                        <div class="result-value" id="totalHours">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Points</div>
+                        <div class="result-value" id="totalPoints">0.00</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Your GPA</div>
+                        <div class="result-value" id="finalGPA">0.00</div>
+                    </div>
+                </div>
+            </div>
+            <p class="calc-note">GPA calculation: total points = Σ(credit hours × grade value);<br>GPA = total points ÷ total credit hours. Empty rows are ignored.</p>
+        </div>
+    </div>
+
+    <footer class="disclaimer">
+        <p><small>⚠️ This is not an official University of New Mexico website. This is a personal project made for educational purposes. There might be errors. If you find any issues, please help by reporting them. Always verify GPA calculations with your official UNM student account.</small></p>
+    </footer>
+
+        <footer class="credits">
+            <p>Made with ❤️ by <a href="https://anujbhattarai.com.np/" target="_blank">Anuj Bhattarai</a></p>
+        </footer>
+
+        <script src="js/app.js"></script>
+</body>
+</html>

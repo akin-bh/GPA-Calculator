@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNM GPA Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c60c30 0%, #a00a28 100%);
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 4px solid #808080;
+        }
+
+        .logo {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            max-width: 280px;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: white;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95em;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #c60c30;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #c60c30;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .grade-badge {
+            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+            border: 2px solid #c60c30;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .grade-badge:hover {
+            background: linear-gradient(135deg, #c60c30 0%, #a00a28 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(198, 12, 48, 0.3);
+        }
+
+        .grade-badge:hover .letter,
+        .grade-badge:hover .points {
+            color: white;
+        }
+
+        .grade-badge .letter {
+            font-weight: 700;
+            color: #c60c30;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .grade-badge .points {
+            color: #666;
+            font-size: 0.75em;
+            margin-top: 3px;
+            transition: color 0.3s ease;
+        }
+
+        .course-entry {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #c60c30;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c60c30;
+            background: white;
+            box-shadow: 0 0 8px rgba(198, 12, 48, 0.2);
+        }
+
+        .btn-small {
+            background: #c60c30;
+            color: white;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background: #a00a28;
+            transform: scale(1.05);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: #c60c30;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #a00a28;
+            box-shadow: 0 4px 12px rgba(198, 12, 48, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #c0c0c0;
+        }
+
+        .result {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 25px;
+            border-top: 4px solid #c60c30;
+            border-left: 4px solid #c60c30;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 0;
+        }
+
+        .result-item {
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 0.75em;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #c60c30;
+        }
+
+        .calc-note {
+            margin-top: 12px;
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .error {
+            background: #ffe6eb;
+            color: #c60c30;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+            border-left: 4px solid #c60c30;
+            font-weight: 600;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                max-width: 200px;
+                margin: 0 auto 15px;
+            }
+
+            .logo img {
+                max-width: 180px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .course-entry {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .result-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .result-value {
+                font-size: 1.8em;
+            }
+
+            .btn {
+                font-size: 0.75em;
+                padding: 10px;
+            }
+        }
+
+        /* ============================================
+           Disclaimer Footer
+           ============================================ */
+
+        .disclaimer {
+            background: #fff3cd;
+            border-top: 2px solid #ffc107;
+            padding: 15px 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .disclaimer p {
+            margin: 0;
+            color: #664d03;
+            line-height: 1.6;
+        }
+
+        .disclaimer small {
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+            /* ============================================
+               Credits Footer
+               ============================================ */
+
+            .credits {
+                background: white;
+                border-top: 1px solid #e0e0e0;
+                padding: 20px;
+                text-align: center;
+                margin-top: 0;
+            }
+
+            .credits p {
+                margin: 0;
+                color: #666;
+                font-size: 0.9em;
+            }
+
+            .credits a {
+                color: #c60c30;
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.3s ease;
+            }
+
+            .credits a:hover {
+                color: #a00a28;
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/logo.jpg" alt="UNM Logo">
+            </div>
+            <h1>UNM GPA Calculator</h1>
+            <p class="subtitle">Calculate your semester GPA</p>
+        </div>
+
+        <div class="content">
+
+        <!-- Grade Scale -->
+        <div class="section">
+            <div class="section-title">Grade Scale</div>
+            <div class="grades-grid">
+                <div class="grade-badge"><span class="letter">A+</span><span class="points">4.33</span></div>
+                <div class="grade-badge"><span class="letter">A</span><span class="points">4.00</span></div>
+                <div class="grade-badge"><span class="letter">A-</span><span class="points">3.67</span></div>
+                <div class="grade-badge"><span class="letter">B+</span><span class="points">3.33</span></div>
+                <div class="grade-badge"><span class="letter">B</span><span class="points">3.00</span></div>
+                <div class="grade-badge"><span class="letter">B-</span><span class="points">2.67</span></div>
+                <div class="grade-badge"><span class="letter">C+</span><span class="points">2.33</span></div>
+                <div class="grade-badge"><span class="letter">C</span><span class="points">2.00</span></div>
+                <div class="grade-badge"><span class="letter">C-</span><span class="points">1.67</span></div>
+                <div class="grade-badge"><span class="letter">D+</span><span class="points">1.33</span></div>
+                <div class="grade-badge"><span class="letter">D</span><span class="points">1.00</span></div>
+                <div class="grade-badge"><span class="letter">D-</span><span class="points">0.67</span></div>
+                <div class="grade-badge"><span class="letter">F</span><span class="points">0.00</span></div>
+            </div>
+        </div>
+
+        <!-- Course Input -->
+        <div class="section">
+            <div class="section-title">Your Courses</div>
+            <div id="coursesContainer"></div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="addCourse()">+ Add Course</button>
+                <button class="btn btn-primary" onclick="calculateGPA()">Calculate</button>
+                <button class="btn btn-secondary" onclick="resetCalculator()">Reset</button>
+            </div>
+            <div id="error" class="error"></div>
+        </div>
+
+        <!-- Results -->
+                <div id="results" class="result">
+            <div class="result-row">
+                <div class="result-item">
+                    <div class="result-label">Total Hours</div>
+                    <div class="result-value" id="totalHours">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Points</div>
+                    <div class="result-value" id="totalPoints">0.00</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Your GPA</div>
+                    <div class="result-value" id="finalGPA">0.00</div>
+                </div>
+            </div>
+        </div>
+        <p class="calc-note">GPA calculation: total points = Σ(credit hours × grade value);<br>GPA = total points ÷ total credit hours. Empty rows are ignored.</p>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const gradeValues = {
+            'A+': 4.33, 'A': 4.00, 'A-': 3.67,
+            'B+': 3.33, 'B': 3.00, 'B-': 2.67,
+            'C+': 2.33, 'C': 2.00, 'C-': 1.67,
+            'D+': 1.33, 'D': 1.00, 'D-': 0.67, 'F': 0.00
+        };
+
+        const DEFAULT_ROWS = 4;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildCourseRows(DEFAULT_ROWS);
+            calculateGPA();
+        });
+
+        function buildCourseRows(count = DEFAULT_ROWS) {
+            const container = document.getElementById('coursesContainer');
+            container.innerHTML = '';
+
+            for (let id = 0; id < count; id++) {
+                container.appendChild(createCourseRow(id));
+            }
+        }
+
+        function addCourse() {
+            const container = document.getElementById('coursesContainer');
+            const id = container.children.length;
+            container.appendChild(createCourseRow(id));
+        }
+
+        function createCourseRow(id) {
+            const courseDiv = document.createElement('div');
+            courseDiv.className = 'course-entry';
+            courseDiv.id = `course-${id}`;
+
+            courseDiv.innerHTML = `
+                <div class="form-group">
+                    <input type="text" placeholder="Course" class="courseName" aria-label="Course name">
+                </div>
+                <div class="form-group">
+                    <input type="number" min="0" max="12" value="" placeholder="Hours" class="creditHours" aria-label="Credit hours">
+                </div>
+                <div class="form-group">
+                    <select class="grade" aria-label="Letter grade">
+                        <option value="">Grade</option>
+                        ${Object.keys(gradeValues).map(g => `<option value="${g}">${g}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+
+            courseDiv.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', calculateGPA);
+                el.addEventListener('change', calculateGPA);
+            });
+
+            return courseDiv;
+        }
+
+        function calculateGPA() {
+            const error = document.getElementById('error');
+            if (error) error.classList.remove('show');
+
+            const courses = document.querySelectorAll('.course-entry');
+            let totalHours = 0;
+            let totalPoints = 0;
+            let invalid = false;
+
+            courses.forEach(course => {
+                const hoursVal = course.querySelector('.creditHours').value;
+                const hours = parseFloat(hoursVal);
+                const grade = course.querySelector('.grade').value;
+
+                if ((!grade && hoursVal === '') || (grade === '' && (hoursVal === '' || isNaN(hours)))) {
+                    return;
+                }
+
+                if (grade && (isNaN(hours) || hours <= 0)) {
+                    invalid = true;
+                    return;
+                }
+
+                if (grade) {
+                    totalHours += hours;
+                    totalPoints += hours * gradeValues[grade];
+                }
+            });
+
+            if (invalid && error) {
+                error.textContent = 'Enter credit hours greater than 0 for selected grades.';
+                error.classList.add('show');
+            }
+
+            const gpa = totalHours > 0 ? (totalPoints / totalHours).toFixed(2) : '0.00';
+
+            document.getElementById('totalHours').textContent = totalHours.toFixed(2).replace(/\.00$/, '');
+            document.getElementById('totalPoints').textContent = totalPoints.toFixed(2);
+            document.getElementById('finalGPA').textContent = gpa;
+            document.getElementById('results').classList.add('show');
+        }
+
+        function resetCalculator() {
+            buildCourseRows(DEFAULT_ROWS);
+            document.getElementById('results').classList.remove('show');
+            const error = document.getElementById('error');
+            if (error) error.classList.remove('show');
+            calculateGPA();
+        }
+    </script>
+
+    <footer class="disclaimer">
+        <p><small>⚠️ This is not an official University of New Mexico website. This is a personal project made for educational purposes. There might be errors. If you find any issues, please help by reporting them. Always verify GPA calculations with your official UNM student account.</small></p>
+    </footer>
+
+        <footer class="credits">
+            <p>Made with ❤️ by <a href="https://anujbhattarai.com.np/" target="_blank">Anuj Bhattarai</a></p>
+        </footer>
+    </body>
+    </html>
