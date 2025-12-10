@@ -435,3 +435,39 @@ h1 {
     color: #a00a28;
     text-decoration: underline;
 }
+
+/* ============================================
+   Important Files Footer
+   ============================================ */
+
+.important-files {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 650px;
+}
+
+.important-files p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.important-files a {
+    color: #c60c30;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.important-files a:hover {
+    color: #a00a28;
+    text-decoration: underline;
+}
+
