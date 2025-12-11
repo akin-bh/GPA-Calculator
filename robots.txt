@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://akin-bh.github.io/GPA-Calculator/sitemap.xml
