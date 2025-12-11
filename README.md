@@ -2,6 +2,10 @@
 
 A clean, minimalist web application to calculate semester GPA for University of New Mexico students.
 
+TRY HERE
+
+https://akin-bh.github.io/GPA-Calculator/
+
 ## Project Structure
 
 ```
